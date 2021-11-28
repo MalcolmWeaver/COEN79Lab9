@@ -61,7 +61,7 @@
 #include <cstdlib>     // Provides NULL and size_t
 #include "bintree.h"   // Provides binary_tree_node and related functions
 
-/*namespace coen79_lab9
+namespace coen79_lab9
 {
     template <class Item>
     class bag
@@ -97,7 +97,7 @@
     template <class Item>
     bag<Item> operator +(const bag<Item>& b1, const bag<Item>& b2);
 }
-*/
+
 
 
 // -----------------------------
@@ -195,7 +195,7 @@ namespace coen79_lab9
         return true;
     }
     
-/*    
+    
     template <class Item>
     typename bag<Item>::size_type bst_remove_all (binary_tree_node<Item>*& root_ptr, const Item& target)
     // Precondition: root_ptr is a root pointer of a binary search tree
@@ -216,6 +216,7 @@ namespace coen79_lab9
         {   // Continue looking in the left subtree
             
             // STUDENT WORK
+            return bst_remove_all(root_ptr->left(), target);
             
         }
         
@@ -223,6 +224,7 @@ namespace coen79_lab9
         {   // Continue looking in the right subtree
             
             // STUDENT WORK
+            return bst_remove_all(root_ptr->right(), target);
         }
         
         if (root_ptr->left( ) == NULL)
@@ -230,6 +232,10 @@ namespace coen79_lab9
             // remove this node, making the right child be the new root.
 
             // STUDENT WORK
+            oldroot_ptr = root_ptr;
+            root_ptr = root_ptr->right();
+            delete oldroot_ptr;
+            return 1;
         }
         
         // If code reaches this point, then we must remove the target from
@@ -241,11 +247,11 @@ namespace coen79_lab9
         // might also be a copy of the target).
         
         // STUDENT WORK
-        
+        bst_remove_max(root_ptr, root_ptr->data());
         return 1 + bst_remove_all(root_ptr, target);
     }
     
-    
+/*    
 #pragma mark - Member Function Implementation
 
     
