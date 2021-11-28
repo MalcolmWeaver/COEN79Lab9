@@ -195,6 +195,9 @@ namespace coen79_lab9
         if (node_ptr != NULL)
         {
             // STUDENT WORK
+            inorder(f, node_ptr->left());
+            f(node_ptr);
+            inorder(f, node_ptr->right());
         }
     }
     
@@ -203,6 +206,12 @@ namespace coen79_lab9
     // Library facilities used: cstdlib
     {
         // STUDENT WORK
+        if (node_ptr != NULL)
+        {
+            postorder(f, node_ptr->left());
+            postorder(f, node_ptr->right());
+            f(node_ptr);
+        }
     }
     
     template <class Process, class BTNode>
@@ -210,6 +219,12 @@ namespace coen79_lab9
     // Library facilities used: cstdlib
     {
         // STUDENT WORK
+        if (node_ptr != NULL)
+        {
+            f(node_ptr);
+            preorder(f, node_ptr->left());
+            preorder(f, node_ptr->right());
+        }
     }
     
     template <class Item, class SizeType>
@@ -233,11 +248,14 @@ namespace coen79_lab9
         binary_tree_node<Item>* child;
         if (root_ptr != NULL)
         {
+            // STUDENT WORK
             child = root_ptr->left( );
             tree_clear( child );
-            
-            // STUDENT WORK
+            child = root_ptr->right();
+            tree_clear(child);
+            delete(root_ptr); // assume everything was dynamically allocated
         }
+        root_ptr = NULL;
     }
     
     
@@ -253,6 +271,10 @@ namespace coen79_lab9
         else
         {
             // STUDENT WORK
+            binary_tree_node<Item> * left_copy = tree_copy(root_ptr->left()); 
+            binary_tree_node<Item> * right_copy = tree_copy(root_ptr->right()); 
+            binary_tree_node<Item> * root_copy = new binary_tree_node<Item>(root_ptr->data(), left_copy, right_copy); 
+            return root_copy;
         }
     }
     
@@ -263,8 +285,13 @@ namespace coen79_lab9
     {
         if (node_ptr == NULL)
             return 0;
-        else{}
+        else
             // STUDENT WORK
+        {
+            size_t left_h = tree_size(node_ptr->left());
+            size_t right_h = tree_size(node_ptr->right());
+            return (left_h > right_h)?left_h:right_h;
+        }
     }
 }
 
