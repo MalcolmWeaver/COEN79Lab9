@@ -251,7 +251,7 @@ namespace coen79_lab9
         return 1 + bst_remove_all(root_ptr, target);
     }
     
-/*    
+
 #pragma mark - Member Function Implementation
 
     
@@ -268,6 +268,7 @@ namespace coen79_lab9
     // Library facilities used: bintree.h
     {
         // STUDENT WORK
+        root_ptr = tree_copy(source.root_ptr);
     }
     
     
@@ -287,7 +288,7 @@ namespace coen79_lab9
         return tree_size(root_ptr);
     }
     
-    
+   
     // Insert
     // Case 1: First handle this special case: When the first entry is inserted,
     //         simply call root_ptr = new binary_tree_node<Item>(entry)
@@ -314,15 +315,29 @@ namespace coen79_lab9
             {   // Go left
                 
                 // STUDENT WORK
-                
+                if(cursor->left()){
+                    cursor = cursor->left();
+                }
+                else{done = true;}
             }
             else
             {   // Go right
 
                 // STUDENT WORK
-                
+                if(cursor->right()){
+                    cursor = cursor->right();
+                }
+                else{done = true;}
             }
         }   while (!done);
+        if(entry <= cursor->data()){
+            assert(cursor->left() == NULL);
+            cursor->set_left(new binary_tree_node<Item>(entry));
+        }
+        else{
+            assert(cursor->right() == NULL);
+            cursor->set_right(new binary_tree_node<Item>(entry));
+        }
     }
     
     
@@ -340,6 +355,8 @@ namespace coen79_lab9
             else
             {
                 // STUDENT WORK
+                if(cursor->data() == target){++answer;}
+                cursor = cursor->left();
             }
         }
         return answer;
@@ -370,21 +387,25 @@ namespace coen79_lab9
     // Header file used: bintree.h
     {
         // STUDENT WORK
+        if(this == &source){return;}
+        tree_clear(root_ptr);
+        root_ptr = tree_copy(source.root_ptr);
     }
     
-    
+/*
     template <class Item>
     void bag<Item>::operator +=(const bag<Item>& addend)
     {
         if (root_ptr == addend.root_ptr)
         {
             // STUDENT WORK
+            
         }
         else
             insert_all(addend.root_ptr);
     }
     
-    
+/*
     template <class Item>
     bag<Item> operator +(const bag<Item>& b1, const bag<Item>& b2)
     {
