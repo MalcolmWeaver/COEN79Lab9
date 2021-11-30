@@ -292,8 +292,10 @@ int test4( )
     if (!correct(test, 14, count, 15)) return 0;
 
     cout << "Removing one 10 ..." << flush;
+    test.debug(); // I added this line
     test.erase_one(10);
     count[10]--;
+    test.debug(); // I added this line
     if (!correct(test, 13, count, 15)) return 0;
 
     cout << "Removing the 1 ..." << flush;

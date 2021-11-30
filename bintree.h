@@ -288,9 +288,7 @@ namespace coen79_lab9
         else
             // STUDENT WORK
         {
-            size_t left_h = tree_size(node_ptr->left());
-            size_t right_h = tree_size(node_ptr->right());
-            return (left_h > right_h)?left_h:right_h;
+            return 1 + tree_size(node_ptr->right()) + tree_size(node_ptr->left());
         }
     }
 }

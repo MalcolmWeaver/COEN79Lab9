@@ -87,7 +87,7 @@ namespace coen79_lab9
         size_type size( ) const;
         size_type count(const Item& target) const;
         void debug( ) const { print(root_ptr, 0); }
-        
+                
     private:
         binary_tree_node<Item> *root_ptr; // Root pointer of binary search tree
         void insert_all(binary_tree_node<Item>* addroot_ptr);
@@ -185,12 +185,23 @@ namespace coen79_lab9
             return true;
         }
         
+        if (root_ptr->right( ) == NULL) // I am not sure if this should be in the code
+        {   // Target was found and there is no left subtree, so we can
+            // remove this node, making the right child be the new root.
+
+            // STUDENT WORK
+            oldroot_ptr = root_ptr;
+            root_ptr = root_ptr->left();
+            delete oldroot_ptr;
+            return true;
+        }
+        
         // If code reaches this point, then we must remove the target from
         // the current node. We'll actually replace this target with the
         // maximum item of left subtree.
 
         // STUDENT WORK
-        bst_remove_max(root_ptr, root_ptr->data()); //uses the non-const "Item& data( ) { return data_field; }"
+        bst_remove_max(root_ptr->left(), root_ptr->data()); //uses the non-const "Item& data( ) { return data_field; }"
                 
         return true;
     }
@@ -392,24 +403,28 @@ namespace coen79_lab9
         root_ptr = tree_copy(source.root_ptr);
     }
     
-/*
+
     template <class Item>
     void bag<Item>::operator +=(const bag<Item>& addend)
     {
         if (root_ptr == addend.root_ptr)
         {
             // STUDENT WORK
-            
+            bag<Item> copy(addend);
+            insert_all(addend.root_ptr);
         }
         else
             insert_all(addend.root_ptr);
     }
     
-/*
+
     template <class Item>
     bag<Item> operator +(const bag<Item>& b1, const bag<Item>& b2)
     {
         // STUDENT WORK
+        bag<int> new_bag(b1);
+        b1 += b2;
+        return b1;
     }
     
     
@@ -425,9 +440,11 @@ namespace coen79_lab9
         if (addroot_ptr != NULL)
         {
             // STUDENT WORK
+            insert(addroot_ptr->data( ));
+            insert_all(addroot_ptr->left( ));  
+            insert_all(addroot_ptr->right( ));
         }
     }
-*/
 }
 
 #endif
